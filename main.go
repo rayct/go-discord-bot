@@ -17,6 +17,7 @@ const prefix string = "!bot"
 
 func main() {
 	godotenv.Load()
+
 	token := os.Getenv("BOT_TOKEN")
 	log.Println("Bot Token Here Is " + token)
 	sess, err := discordgo.New("Bot " + token)
