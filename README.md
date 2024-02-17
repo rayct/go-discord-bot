@@ -1,4 +1,4 @@
-# A simple Discord Bot in written Go.
+# A Simple Discord Bot in written Go.
 
 
 
