@@ -57,7 +57,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if m.Content == config.BotPrefix+" ping" {
-		_, err := s.ChannelMessageSend(m.ChannelID, "Pong! "+(time.Since(m.Timestamp)).String())
+		_, err := s.ChannelMessageSend(m.ChannelID, "Hello! "+(time.Since(m.Timestamp)).String())
 
 		if err != nil {
 			fmt.Println(err)
