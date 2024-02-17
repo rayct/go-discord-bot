@@ -63,4 +63,21 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Println(err)
 		}
 	}
+
+	if m.Content == config.BotPrefix+"embed" {
+		embed := &discordgo.MessageEmbed{}
+		embed.Title = "This is an embed"
+		embed.Color = 1752220
+		embed.Description = "This is a description"
+
+		embed.Thumbnail = &discordgo.MessageEmbedThumbnail{}
+		embed.Thumbnail.URL = ""
+
+		_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+	}
 }
