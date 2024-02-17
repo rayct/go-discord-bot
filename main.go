@@ -42,14 +42,18 @@ func main() {
 		fmt.Println(err)
 	}
 
-	fmt.Println("Bot is now running!")
+	// Wait for a CTRL-C
+	fmt.Println("Bot is now running! Press CTRL-C to exit.")
 
 	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
 
+	// Clean up
 	bot.Close()
 }
+
+// Exit Normally.
 
 // func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 // 	if m.Author.ID == BotID {
