@@ -64,14 +64,14 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
-	if m.Content == config.BotPrefix+"embed" {
+	if m.Content == config.BotPrefix+" embed" {
 		embed := &discordgo.MessageEmbed{}
 		embed.Title = "This is an embed"
 		embed.Color = 1752220
 		embed.Description = "This is a description"
 
 		embed.Thumbnail = &discordgo.MessageEmbedThumbnail{}
-		embed.Thumbnail.URL = ""
+		embed.Thumbnail.URL = "https://hips.hearstapps.com/hmg-prod/images/Emma-Watson_GettyImages-619546914.jpg?crop=1xw:1.0xh;center,top&resize=640:*"
 
 		_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
 
