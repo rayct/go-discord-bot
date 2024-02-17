@@ -13,6 +13,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type Answers struct {
+	OriginChannelID string
+	FavFood string
+	FavGame string
+}
+
+var responses map[string]Answers = map[string]Answers{}
+
 const prefix string = "!bot"
 
 func main() {
@@ -42,6 +50,10 @@ func main() {
 
 		if args[1] == "Hi" {
 			s.ChannelMessageSend(m.ChannelID, "Wass-up!")
+		}
+
+		if args[1] == "prompts" {
+			UserPromptHandler(s, m)
 		}
 
 		if args[1] == "proverbs" {
