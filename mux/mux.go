@@ -98,11 +98,15 @@ func (m *Mux) FuzzyMatch(msg string) (*Route, []string) {
 	return r, fields[fk:]
 }
 
+var Msg string
+
 // OnMessageCreate is a DiscordGo Event Handler function.  This must be
 // registered using the DiscordGo.Session.AddHandler function.  This function
 // will receive all Discord messages and parse them for matches to registered
 // routes.
 func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate) {
+
+	Msg = ""
 
 	var err error
 
@@ -177,7 +181,9 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 	// For now, if we're not specifically mentioned we do nothing.
 	// later I might add an option for global non-mentioned command words
 	if !ctx.IsDirected {
+		Msg = ctx.Content
 		return
+
 	}
 
 	// Try to find the "best match" command out of the message.
@@ -197,5 +203,15 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 		// loop.  Probably most common in private messages.
 		m.Default.Run(ds, mc.Message, ctx)
 	}
+
+}
+
+// Helper function
+func GetUserMsg() string {
+	for Msg == "" {
+		continue
+	}
+
+	return Msg
 
 }
