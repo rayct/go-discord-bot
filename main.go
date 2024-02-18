@@ -45,6 +45,7 @@ func init() {
 	Router.Route("embed", "Returns an embed", Router.Embed)
 	// Router.Route("gpt", "GPT Command", Router.GPT)
 	Router.Route("hilo", "High Low Guessing Command", Router.HiLo)
+	Router.Route("tictactoe", "Tic Tac Toe Command", Router.TicTacToe)
 
 }
 
