@@ -42,14 +42,14 @@ func main() {
 		fmt.Println(err)
 	}
 
-	// Wait for a CTRL-C
-	fmt.Println("Bot is now running! Press CTRL-C to exit.")
+	// Wait for a CTRL-C until SIGINT or SIGTERM is received.
+	fmt.Println("Raybot is now running! Press CTRL-C to exit.")
 
 	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
 
-	// Clean up
+	// Cleanly close down the Discord session.
 	bot.Close()
 }
 
