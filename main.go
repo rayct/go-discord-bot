@@ -23,10 +23,13 @@ func init() {
 		fmt.Println(err)
 	}
 
-	bot, err := discordgo.New("Bot " + config.Token)
+	var errDiscord error // Declare errDiscord to store discordgo.New error
 
-	if err != nil {
-		fmt.Println(err)
+	// Assign directly to the global bot variable
+	bot, errDiscord = discordgo.New("Bot " + config.Token)
+
+	if errDiscord != nil {
+		fmt.Println(errDiscord)
 	}
 
 	err = bot.Open()
@@ -59,7 +62,10 @@ func main() {
 	<-sc
 
 	// Cleanly close down the Discord session.
-	bot.Close()
+	if err := bot.Close(); err != nil {
+		fmt.Printf("Error closing Discord session: %v\n", err)
+		// Handle error gracefully, perhaps log it or perform other actions.
+	}
 }
 
 // Exit Normally.
