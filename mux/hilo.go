@@ -29,8 +29,32 @@ func getGuess(ds *discordgo.Session, dm *discordgo.Message) int {
 	returnGuess, err := strconv.Atoi(GetUserMsg())
 
 	for err != nil {
-		ds.ChannelMessageSend(dm.ChannelID, "That is not a number, guess again")
+		ds.ChannelMessageSend(dm.ChannelID, "That is not a number, guess again.")
 		returnGuess, err = strconv.Atoi(GetUserMsg())
 	}
 	return returnGuess
 }
+
+// func getGuess(ds *discordgo.Session, dm *discordgo.Message) int {
+// 	// Send a message to the user to prompt for their guess
+// 	ds.ChannelMessageSend(dm.ChannelID, "Enter your guess:")
+
+// 	// Wait for a response from the user
+// 	msg, err := ds.ChannelMessage(dm.ChannelID, dm.ID)
+// 	if err != nil {
+// 		// Handle error (e.g., unable to retrieve user's message)
+// 		// For simplicity, you can send a message indicating an error
+// 		ds.ChannelMessageSend(dm.ChannelID, "Error occurred. Please try again.")
+// 		return getGuess(ds, dm) // Retry getting the guess
+// 	}
+
+// 	// Convert the user's message to an integer
+// 	returnGuess, err := strconv.Atoi(msg.Content)
+// 	if err != nil {
+// 		// Handle error (e.g., user's input is not a valid number)
+// 		ds.ChannelMessageSend(dm.ChannelID, "That is not a number, guess again.")
+// 		return getGuess(ds, dm) // Retry getting the guess
+// 	}
+
+// 	return returnGuess
+// }
