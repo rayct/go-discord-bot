@@ -3,7 +3,10 @@ package mux
 import (
 	"GoDiscordBot/config"
 	"context"
+	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"strings"
 	"time"
 
@@ -11,7 +14,33 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
+type record struct {
+	Word     string
+	Language string
+}
+
+type profanityStruct struct {
+	Records []record
+}
+
 func (m *Mux) GPT(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
+	resp, err := http.Get("https://raw.githubusercontent.com/turalus/encycloDB/master/Dirty%20Words/DirtyWords.json")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	//We Read the response body on the line below.
+
+	defer resp.Body.Close()
+
+	//Create a variable of the same type as our model
+
+	pResp := &profanityStruct{}
+
+	//Decode the data
+	if err = json.NewDecoder(resp.Body).Decode(&pResp); err != nil {
+		fmt.Println(err)
+	}
+
 	client := gpt3.NewClient(config.OpenAIApiKey)
 
 	response, err := getResponse(client, ctx.Content)
@@ -26,7 +55,11 @@ func (m *Mux) GPT(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	embed.Thumbnail = &discordgo.MessageEmbedThumbnail{}
 	embed.Thumbnail.URL = "https://preview.redd.it/what-does-the-chatgpt-symbol-mean-does-it-have-meaning-like-v0-ogw5okm1bz5a1.jpg?auto=webp&s=51f427fda04a94889e4abfcbc6e6848b77be81ba"
 
-	embed.Description = response
+	if success, errMsg := moderationTest(response, pResp); success {
+		embed.Description = response
+	} else {
+		embed.Description = errMsg
+	}
 
 	_, err = ds.ChannelMessageSendEmbed(dm.ChannelID, embed)
 
@@ -66,4 +99,18 @@ func getResponse(client gpt3.Client, question string) (response string, err erro
 	response = strings.TrimLeft(response, "\n")
 
 	return response, nil
+}
+
+func moderationTest(str string, pResp *profanityStruct) (bool, string) {
+	for _, record := range pResp.Records {
+		if strings.Contains(" "+strings.ToLower(str)+" ", " "+record.Word+" ") && record.Language == "en" {
+			fmt.Println(record.Word)
+			return false, "Whoa there! Let's not say bad words please"
+		}
+		if strings.Contains(strings.ToLower(str), "@") {
+			return false, "Whoa there buddy! Let's not do a ping okay?"
+		}
+	}
+	return true, ""
+
 }
