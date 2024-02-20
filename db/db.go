@@ -8,20 +8,19 @@ import (
     "log"
     "time"
 
-
     "go.mongodb.org/mongo-driver/bson"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 
-	type User struct {
-		Id      string
-		Name    string
-		Balance int
+type User struct {
+	Id      string
+	Name    string
+	Balance int
 	}
 	
 	
-	// var client *mongo.Client
+	var client *mongo.Client
 	var GoDB *mongo.Database
 	var UsersCollection *mongo.Collection
 	
@@ -56,3 +55,4 @@ import (
 		ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 		client.Disconnect(ctx)
 	}
+	
