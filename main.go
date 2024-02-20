@@ -2,6 +2,7 @@ package main
 
 import (
 	"GoDiscordBot/config"
+	"GoDiscordBot/db"
 	"GoDiscordBot/mux"
 	"fmt"
 	"os"
@@ -22,6 +23,8 @@ func init() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	db.Connect()
 
 	var errDiscord error // Declare errDiscord to store discordgo.New error
 
@@ -49,6 +52,9 @@ func init() {
 	Router.Route("gpt", "GPT Command", Router.GPT)
 	Router.Route("hilo", "High Low Guessing Command", Router.HiLo)
 	Router.Route("tictactoe", "Tic Tac Toe Command", Router.TicTacToe)
+	Router.Route("profit", "Make some money", Router.Profit)
+	Router.Route("bal", "Check your balance", Router.Bal)
+	Router.Route("selfdestruct", "End your account", Router.SelfDestruct)
 
 }
 

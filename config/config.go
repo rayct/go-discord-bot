@@ -10,6 +10,7 @@ var (
 	Token        string
 	BotPrefix    string
 	OpenAIApiKey string
+	MongoDBURL   string
 
 	config *configStruct
 )
@@ -18,6 +19,7 @@ type configStruct struct {
 	Token        string
 	BotPrefix    string
 	OpenAIApiKey string
+	MongoDBURL   string
 }
 
 func ReadConfig() error {
@@ -37,6 +39,7 @@ func ReadConfig() error {
 	Token = config.Token
 	BotPrefix = config.BotPrefix
 	OpenAIApiKey = config.OpenAIApiKey
+	MongoDBURL = config.MongoDBURL
 
 	return nil
 }
