@@ -9,6 +9,7 @@
     * Moderation Commands
     * Retrieve ChatGPT Logo from Redit
 * Mongo DB Commands
+    CRUD Commands
 
 ---
 
